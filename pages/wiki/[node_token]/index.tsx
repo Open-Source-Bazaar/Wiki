@@ -6,8 +6,8 @@ import { Button, Container } from 'react-bootstrap';
 import { Minute, Second } from 'web-utility';
 
 import { PageHead } from '../../../components/Layout/PageHead';
-import documentStore from '../../../models/Document';
-import wikiStore from '../../../models/Wiki';
+import { documentStore } from '../../../models/Wiki';
+import { wikiStore } from '../../../models/Wiki';
 import { lark } from '../../api/Lark/core';
 
 export const getStaticPaths: GetStaticPaths = async () => {

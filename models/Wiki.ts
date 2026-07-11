@@ -3,6 +3,7 @@ import { DocumentModel, WikiNodeModel } from 'mobx-lark';
 import { DataObject } from 'mobx-restful';
 
 import { lark } from '../pages/api/Lark/core';
+import './Base';
 import { LarkWikiDomain, LarkWikiId } from './configuration';
 
 export interface XContent extends Content {
@@ -25,5 +26,3 @@ export class MyDocumentModel extends DocumentModel {
 }
 
 export const documentStore = new MyDocumentModel(LarkWikiDomain);
-
-export default wikiStore;
