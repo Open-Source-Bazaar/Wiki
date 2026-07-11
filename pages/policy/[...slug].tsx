@@ -14,11 +14,11 @@ import { I18nContext } from '../../models/Translation';
 import { policyContentStore, XContent } from '../../models/Wiki';
 import { splitFrontMatter } from '../api/core';
 
-interface WikiPageParams extends ParsedUrlQuery {
+interface PolicyPageParams extends ParsedUrlQuery {
   slug: string[];
 }
 
-export const getStaticPaths: GetStaticPaths<WikiPageParams> = async () => {
+export const getStaticPaths: GetStaticPaths<PolicyPageParams> = async () => {
   const nodes = await policyContentStore.getAll();
 
   const paths = nodes
@@ -28,7 +28,7 @@ export const getStaticPaths: GetStaticPaths<WikiPageParams> = async () => {
   return { paths, fallback: 'blocking' };
 };
 
-export const getStaticProps: GetStaticProps<XContent, WikiPageParams> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<XContent, PolicyPageParams> = async ({ params }) => {
   const { slug } = params!;
 
   const node = await policyContentStore.getOne(slug.join('/'));
@@ -43,7 +43,7 @@ export const getStaticProps: GetStaticProps<XContent, WikiPageParams> = async ({
   };
 };
 
-const WikiPage: FC<XContent> = observer(({ name, path, parent_path, content, meta }) => {
+const PolicyPage: FC<XContent> = observer(({ name, path, parent_path, content, meta }) => {
   const { t } = useContext(I18nContext);
 
   return (
@@ -134,4 +134,4 @@ const WikiPage: FC<XContent> = observer(({ name, path, parent_path, content, met
   );
 });
 
-export default WikiPage;
+export default PolicyPage;

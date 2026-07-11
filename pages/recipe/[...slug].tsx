@@ -60,7 +60,7 @@ const RecipePage: FC<XContent> = observer(({ name, path, parent_path, content, m
           const breadcrumbPath = array.slice(0, index + 1).join('/');
 
           return (
-            <Breadcrumb.Item key={breadcrumbPath} href={`/recipes/${breadcrumbPath}`}>
+            <Breadcrumb.Item key={breadcrumbPath} href={`/recipe/${breadcrumbPath}`}>
               {segment}
             </Breadcrumb.Item>
           );

@@ -19,7 +19,7 @@ export const getStaticProps: GetStaticProps<{ nodes: XContent[] }> = async () =>
   };
 };
 
-const WikiIndexPage: FC<{ nodes: XContent[] }> = observer(({ nodes }) => {
+const PolicyIndexPage: FC<{ nodes: XContent[] }> = observer(({ nodes }) => {
   const { t } = useContext(I18nContext);
 
   return (
@@ -58,4 +58,4 @@ const WikiIndexPage: FC<{ nodes: XContent[] }> = observer(({ nodes }) => {
   );
 });
 
-export default WikiIndexPage;
+export default PolicyIndexPage;
