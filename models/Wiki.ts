@@ -1,5 +1,5 @@
 import { Content, ContentModel } from 'mobx-github';
-import { WikiNodeModel } from 'mobx-lark';
+import { DocumentModel, WikiNodeModel } from 'mobx-lark';
 import { DataObject } from 'mobx-restful';
 
 import { lark } from '../pages/api/Lark/core';
@@ -19,5 +19,11 @@ export class MyWikiNodeModel extends WikiNodeModel {
 }
 
 export const wikiStore = new MyWikiNodeModel(LarkWikiDomain, LarkWikiId);
+
+export class MyDocumentModel extends DocumentModel {
+  client = lark.client;
+}
+
+export const documentStore = new MyDocumentModel(LarkWikiDomain);
 
 export default wikiStore;
