@@ -1,10 +1,23 @@
+import { Content, ContentModel } from 'mobx-github';
 import { WikiNodeModel } from 'mobx-lark';
+import { DataObject } from 'mobx-restful';
 
 import { lark } from '../pages/api/Lark/core';
 import { LarkWikiDomain, LarkWikiId } from './configuration';
+
+export interface XContent extends Content {
+  meta?: DataObject;
+  children?: XContent[];
+}
+
+export const policyContentStore = new ContentModel('fpsig', 'open-source-policy');
+
+export const recipeContentStore = new ContentModel('Gar-b-age', 'CookLikeHOC');
 
 export class MyWikiNodeModel extends WikiNodeModel {
   client = lark.client;
 }
 
-export default new MyWikiNodeModel(LarkWikiDomain, LarkWikiId);
+export const wikiStore = new MyWikiNodeModel(LarkWikiDomain, LarkWikiId);
+
+export default wikiStore;

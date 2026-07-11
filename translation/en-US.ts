@@ -49,6 +49,24 @@ export default {
   block_diff: 'Block Diff',
   document: 'Document',
 
+  // Wiki
+  knowledge_base: 'Knowledge Base',
+  contribute_content: 'Contribute Content',
+  no_docs_available: 'No documents available in the knowledge base.',
+  docs_auto_load_from_github: 'Documents will be automatically loaded from GitHub repository.',
+  policy: 'Policy',
+  creation_date: 'Creation Date',
+  publication_date: 'Publication Date',
+  edit_on_github: 'Edit on GitHub',
+  view_original: 'View Original',
+  github_document_description: 'This is a document page based on a GitHub repository.',
+  view_or_edit_on_github: 'View or edit this content on GitHub',
+
+  // Recipe
+  recipe: 'Recipe',
+  servings: 'Servings',
+  preparation_time: 'Preparation time',
+
   // Search
   keywords: 'Keywords',
   search_results: 'Search Results',
