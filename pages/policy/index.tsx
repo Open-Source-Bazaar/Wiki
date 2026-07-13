@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import { GetStaticProps } from 'next';
-import React, { FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Button, Card, Container } from 'react-bootstrap';
 import { treeFrom } from 'web-utility';
 
@@ -8,9 +8,11 @@ import { ContentTree } from '../../components/Layout/ContentTree';
 import { PageHead } from '../../components/Layout/PageHead';
 import { I18nContext } from '../../models/Translation';
 import { policyContentStore, XContent } from '../../models/Wiki';
-import { filterMarkdownFiles } from '../api/core';
+import { filterMarkdownFiles } from '../api/SSG';
 
-export const getStaticProps: GetStaticProps<{ nodes: XContent[] }> = async () => {
+export const getStaticProps: GetStaticProps<{
+  nodes: XContent[];
+}> = async () => {
   const nodes = filterMarkdownFiles(await policyContentStore.getAll());
 
   return {

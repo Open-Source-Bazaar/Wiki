@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import { GetStaticProps } from 'next';
-import React, { FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Alert, Button, Card, Container } from 'react-bootstrap';
 import { treeFrom } from 'web-utility';
 
@@ -8,9 +8,11 @@ import { ContentTree } from '../../components/Layout/ContentTree';
 import { PageHead } from '../../components/Layout/PageHead';
 import { I18nContext } from '../../models/Translation';
 import { recipeContentStore, XContent } from '../../models/Wiki';
-import { filterMarkdownFiles } from '../api/core';
+import { filterMarkdownFiles } from '../api/SSG';
 
-export const getStaticProps: GetStaticProps<{ nodes: XContent[] }> = async () => {
+export const getStaticProps: GetStaticProps<{
+  nodes: XContent[];
+}> = async () => {
   const nodes = filterMarkdownFiles(await recipeContentStore.getAll()).filter(
     ({ path }) => !path.startsWith('index.'),
   );
@@ -44,11 +46,17 @@ const RecipeIndexPage: FC<{ nodes: XContent[] }> = observer(({ nodes }) => {
 
       <Alert variant="info" className="mb-4">
         本菜谱原创自
-        <Alert.Link href="https://www.lxjchina.com.cn/display_4226.html" target="_blank">
+        <Alert.Link
+          href="https://www.lxjchina.com.cn/display_4226.html"
+          target="_blank"
+        >
           《老乡鸡菜品溯源报告》
         </Alert.Link>
         ，并由{' '}
-        <Alert.Link href="https://github.com/Gar-b-age/CookLikeHOC" target="_blank">
+        <Alert.Link
+          href="https://github.com/Gar-b-age/CookLikeHOC"
+          target="_blank"
+        >
           CookLikeHOC 开源菜谱项目
         </Alert.Link>
         整理，感谢原作者们的贡献与分享。

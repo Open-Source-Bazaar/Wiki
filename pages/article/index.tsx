@@ -4,7 +4,7 @@ import { FC, useContext } from 'react';
 
 import { MDXLayout } from '../../components/Layout/MDXLayout';
 import { I18nContext } from '../../models/Translation';
-import { ArticleMeta, pageListOf, traverseTree } from '../api/core';
+import { ArticleMeta, pageListOf, traverseTree } from '../api/SSG';
 
 export const getStaticProps = async () => {
   const tree = await Array.fromAsync(pageListOf('/article'));

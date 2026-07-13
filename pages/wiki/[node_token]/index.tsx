@@ -1,14 +1,14 @@
 import { Icon } from 'idea-react';
 import { Block, renderBlocks, WikiNode } from 'mobx-lark';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths } from 'next';
 import { FC } from 'react';
 import { Button, Container } from 'react-bootstrap';
-import { Minute, Second } from 'web-utility';
 
 import { PageHead } from '../../../components/Layout/PageHead';
 import { documentStore } from '../../../models/Wiki';
 import { wikiStore } from '../../../models/Wiki';
 import { lark } from '../../api/Lark/core';
+import { skipBuilding } from '../../api/SSG';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   await lark.getAccessToken();
@@ -21,26 +21,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps = skipBuilding(async ({ params }) => {
   await lark.getAccessToken();
 
   const node = await wikiStore.getOne(params!.node_token as string);
 
   if (node?.obj_type !== 'docx') return { notFound: true };
 
-  try {
-    const blocks = await documentStore.getOneBlocks(
-      node.obj_token,
-      token => `/api/Lark/file/${token}/placeholder`,
-    );
+  const blocks = await documentStore.getOneBlocks(
+    node.obj_token,
+    token => `/api/Lark/file/${token}/placeholder`,
+  );
 
-    return { props: { node, blocks } };
-  } catch (error) {
-    console.error(error);
-
-    return { notFound: true, revalidate: Minute / Second };
-  }
-};
+  return { props: { node, blocks } };
+});
 
 interface WikiDocumentPageProps {
   node: WikiNode;
