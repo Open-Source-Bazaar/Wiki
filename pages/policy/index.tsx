@@ -7,13 +7,15 @@ import { treeFrom } from 'web-utility';
 import { ContentTree } from '../../components/Layout/ContentTree';
 import { PageHead } from '../../components/Layout/PageHead';
 import { I18nContext } from '../../models/Translation';
-import { policyContentStore, XContent } from '../../models/Wiki';
-import { filterMarkdownFiles } from '../api/SSG';
+import { policyTreeStore, XContent } from '../../models/Wiki';
+import { filterMarkdownFiles,treeToContents } from '../api/SSG';
 
 export const getStaticProps: GetStaticProps<{
   nodes: XContent[];
 }> = async () => {
-  const nodes = filterMarkdownFiles(await policyContentStore.getAll());
+  const tree = await policyTreeStore.getAll();
+
+  const nodes = filterMarkdownFiles(treeToContents(tree));
 
   return {
     props: JSON.parse(JSON.stringify({ nodes })),
@@ -46,7 +48,6 @@ const PolicyIndexPage: FC<{ nodes: XContent[] }> = observer(({ nodes }) => {
         <ContentTree
           nodes={treeFrom(nodes, 'path', 'parent_path', 'children')}
           basePath="/policy"
-          metaKey="主题分类"
         />
       ) : (
         <Card>

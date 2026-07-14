@@ -1,28 +1,34 @@
-import { Content, ContentModel } from 'mobx-github';
+import './Base';
+
+import { Content, ContentModel, TreeModel } from 'mobx-github';
 import { DocumentModel, WikiNodeModel } from 'mobx-lark';
 import { DataObject } from 'mobx-restful';
 
 import { lark } from '../pages/api/Lark/core';
-import './Base';
 import { LarkWikiDomain, LarkWikiId } from './configuration';
 
 export interface XContent extends Content {
   meta?: DataObject;
+  // eslint-disable-next-line no-restricted-syntax
   children?: XContent[];
 }
 
-export const policyContentStore = new ContentModel('fpsig', 'open-source-policy');
+export const policyTreeStore = new TreeModel('fpsig', 'open-source-policy');
+
+export const policyContentStore = new ContentModel(
+  'fpsig',
+  'open-source-policy',
+);
+export const recipeTreeStore = new TreeModel('Gar-b-age', 'CookLikeHOC');
 
 export const recipeContentStore = new ContentModel('Gar-b-age', 'CookLikeHOC');
 
 export class MyWikiNodeModel extends WikiNodeModel {
   client = lark.client;
 }
-
 export const wikiStore = new MyWikiNodeModel(LarkWikiDomain, LarkWikiId);
 
 export class MyDocumentModel extends DocumentModel {
   client = lark.client;
 }
-
 export const documentStore = new MyDocumentModel(LarkWikiDomain);

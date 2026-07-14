@@ -11,7 +11,12 @@ import { decodeBase64 } from 'web-utility';
 
 import { PageHead } from '../../components/Layout/PageHead';
 import { I18nContext } from '../../models/Translation';
-import { policyContentStore, XContent } from '../../models/Wiki';
+import {
+  policyContentStore,
+  policyTreeStore,
+  XContent,
+} from '../../models/Wiki';
+import { filterMarkdownFiles,treeToContents } from '../api/SSG';
 import { skipBuilding, splitFrontMatter } from '../api/SSG';
 
 interface PolicyPageParams extends ParsedUrlQuery {
@@ -19,9 +24,9 @@ interface PolicyPageParams extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths<PolicyPageParams> = async () => {
-  const nodes = await policyContentStore.getAll();
+  const tree = await policyTreeStore.getAll();
 
-  const paths = nodes
+  const paths = filterMarkdownFiles(treeToContents(tree))
     .filter(({ type }) => type === 'file')
     .map(({ path }) => ({ params: { slug: path.split('/') } }));
 

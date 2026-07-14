@@ -7,13 +7,15 @@ import { treeFrom } from 'web-utility';
 import { ContentTree } from '../../components/Layout/ContentTree';
 import { PageHead } from '../../components/Layout/PageHead';
 import { I18nContext } from '../../models/Translation';
-import { recipeContentStore, XContent } from '../../models/Wiki';
-import { filterMarkdownFiles } from '../api/SSG';
+import { recipeTreeStore, XContent } from '../../models/Wiki';
+import { filterMarkdownFiles,treeToContents } from '../api/SSG';
 
 export const getStaticProps: GetStaticProps<{
   nodes: XContent[];
 }> = async () => {
-  const nodes = filterMarkdownFiles(await recipeContentStore.getAll()).filter(
+  const tree = await recipeTreeStore.getAll();
+
+  const nodes = filterMarkdownFiles(treeToContents(tree)).filter(
     ({ path }) => !path.startsWith('index.'),
   );
 
@@ -66,7 +68,6 @@ const RecipeIndexPage: FC<{ nodes: XContent[] }> = observer(({ nodes }) => {
         <ContentTree
           nodes={treeFrom(nodes, 'path', 'parent_path', 'children')}
           basePath="/recipe"
-          metaKey="category"
         />
       ) : (
         <Card>

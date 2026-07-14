@@ -11,7 +11,12 @@ import { decodeBase64 } from 'web-utility';
 
 import { PageHead } from '../../components/Layout/PageHead';
 import { I18nContext } from '../../models/Translation';
-import { recipeContentStore, XContent } from '../../models/Wiki';
+import {
+  recipeContentStore,
+  recipeTreeStore,
+  XContent,
+} from '../../models/Wiki';
+import { filterMarkdownFiles,treeToContents } from '../api/SSG';
 import { skipBuilding, splitFrontMatter } from '../api/SSG';
 
 interface RecipePageParams extends ParsedUrlQuery {
@@ -19,9 +24,9 @@ interface RecipePageParams extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths<RecipePageParams> = async () => {
-  const nodes = await recipeContentStore.getAll();
+  const tree = await recipeTreeStore.getAll();
 
-  const paths = nodes
+  const paths = filterMarkdownFiles(treeToContents(tree))
     .filter(
       ({ type, name, path }) =>
         type === 'file' && !name.startsWith('.') && !path.startsWith('index.'),

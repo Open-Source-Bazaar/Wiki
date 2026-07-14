@@ -1,6 +1,6 @@
 import 'core-js/full/array/from-async';
 
-import { Content } from 'mobx-github';
+import { Content, Tree } from 'mobx-github';
 import { DataObject } from 'mobx-restful';
 import { GetStaticProps, GetStaticPropsResult } from 'next';
 import { ParsedUrlQuery } from 'querystring';
@@ -8,6 +8,7 @@ import { Minute, Second } from 'web-utility';
 import { parse } from 'yaml';
 
 import { CI } from '../../models/configuration';
+import { XContent } from '../../models/Wiki';
 
 export const skipBuilding =
   <Props extends DataObject, Params extends ParsedUrlQuery = ParsedUrlQuery>(
@@ -106,6 +107,24 @@ export function* traverseTree<K extends string, N extends TreeNode<K>>(
     yield* traverseTree(node as N, key);
   }
 }
+
+export const treeToContents = (nodes: Tree[]) =>
+  nodes
+    .filter(({ path }) => !!path)
+    .map(node => {
+      const path = node.path!;
+      const slashIndex = path.lastIndexOf('/');
+      const name = slashIndex >= 0 ? path.slice(slashIndex + 1) : path,
+        parent_path = slashIndex >= 0 ? path.slice(0, slashIndex) : '';
+
+      return {
+        ...node,
+        type: node.type === 'tree' ? 'dir' : 'file',
+        path,
+        parent_path,
+        name,
+      } as XContent;
+    });
 
 export const filterMarkdownFiles = (nodes: Content[]) =>
   nodes
