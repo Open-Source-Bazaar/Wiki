@@ -6,7 +6,6 @@ export default {
   upstream_projects: '上游專案',
   home_page: '主頁',
   source_code: '源代碼',
-  component: '元件',
   pagination: '分頁',
   powered_by: '強力驅動自',
   documentation: '文檔',
@@ -40,6 +39,10 @@ export default {
   load_more: '加載更多……',
   no_more: '沒有更多',
 
+  // Search
+  keywords: '關鍵詞',
+  search_results: '搜尋結果',
+
   // MDX Article
   article: '文章',
   wiki: '知識庫',
@@ -64,8 +67,4 @@ export default {
   recipe: '菜譜',
   servings: '份數',
   preparation_time: '準備時間',
-
-  // Search
-  keywords: '關鍵詞',
-  search_results: '搜尋結果',
 } as const;

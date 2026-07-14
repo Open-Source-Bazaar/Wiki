@@ -6,7 +6,6 @@ export default {
   upstream_projects: 'Upstream projects',
   home_page: 'Home Page',
   source_code: 'Source Code',
-  component: 'Component',
   pagination: 'Pagination',
   powered_by: 'Powered by',
   documentation: 'Documentation',
@@ -42,6 +41,10 @@ export default {
   load_more: 'Load more...',
   no_more: 'No more',
 
+  // Search
+  keywords: 'Keywords',
+  search_results: 'Search Results',
+
   // MDX Article
   article: 'Article',
   wiki: 'Wiki',
@@ -53,21 +56,19 @@ export default {
   knowledge_base: 'Knowledge Base',
   contribute_content: 'Contribute Content',
   no_docs_available: 'No documents available in the knowledge base.',
-  docs_auto_load_from_github: 'Documents will be automatically loaded from GitHub repository.',
+  docs_auto_load_from_github:
+    'Documents will be automatically loaded from a GitHub repository.',
   policy: 'Policy',
   creation_date: 'Creation Date',
   publication_date: 'Publication Date',
   edit_on_github: 'Edit on GitHub',
   view_original: 'View Original',
-  github_document_description: 'This is a document page based on a GitHub repository.',
+  github_document_description:
+    'This is a document page based on a GitHub repository.',
   view_or_edit_on_github: 'View or edit this content on GitHub',
 
   // Recipe
   recipe: 'Recipe',
   servings: 'Servings',
   preparation_time: 'Preparation time',
-
-  // Search
-  keywords: 'Keywords',
-  search_results: 'Search Results',
 } as const;

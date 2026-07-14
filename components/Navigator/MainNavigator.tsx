@@ -30,7 +30,9 @@ export const MainNavigator: FC = observer(() => {
 
             <Nav.Link href="/wiki">{t('wiki')}</Nav.Link>
 
-            <Nav.Link href="/component">{t('component')}</Nav.Link>
+            <Nav.Link href="/recipe">{t('recipe')}</Nav.Link>
+
+            <Nav.Link href="/policy">{t('policy')}</Nav.Link>
 
             <Nav.Link href="/pagination">{t('pagination')}</Nav.Link>
 

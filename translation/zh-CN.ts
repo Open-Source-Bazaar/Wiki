@@ -6,7 +6,6 @@ export default {
   upstream_projects: '上游项目',
   home_page: '主页',
   source_code: '源代码',
-  component: '组件',
   pagination: '分页',
   powered_by: '强力驱动自',
   documentation: '文档',
@@ -40,6 +39,10 @@ export default {
   load_more: '加载更多……',
   no_more: '没有更多',
 
+  // Search
+  keywords: '关键词',
+  search_results: '搜索结果',
+
   // MDX Article
   article: '文章',
   wiki: '知识库',
@@ -64,8 +67,4 @@ export default {
   recipe: '菜谱',
   servings: '份数',
   preparation_time: '准备时间',
-
-  // Search
-  keywords: '关键词',
-  search_results: '搜索结果',
 } as const;
