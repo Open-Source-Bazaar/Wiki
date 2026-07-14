@@ -1,5 +1,3 @@
-import 'core-js/full/array/from-async';
-
 import { JsonWebTokenError, sign } from 'jsonwebtoken';
 import { Context, Middleware, ParameterizedContext } from 'koa';
 import JWT from 'koa-jwt';
@@ -7,9 +5,8 @@ import { HTTPError } from 'koajax';
 import { DataObject } from 'mobx-restful';
 import { KoaOption, withKoa } from 'next-ssr-middleware';
 import { ProxyAgent, setGlobalDispatcher } from 'undici';
-import { parse } from 'yaml';
 
-import { JWT_SECRET } from '../../models/configuration';
+import { LarkAppMeta } from '../../models/configuration';
 
 const { HTTP_PROXY } = process.env;
 
@@ -20,14 +17,14 @@ export type JWTContext = ParameterizedContext<
 >;
 
 export const parseJWT = JWT({
-  secret: JWT_SECRET!,
+  secret: LarkAppMeta.secret!,
   cookie: 'token',
   passthrough: true,
 });
 
-export const verifyJWT = JWT({ secret: JWT_SECRET!, cookie: 'token' });
+export const verifyJWT = JWT({ secret: LarkAppMeta.secret!, cookie: 'token' });
 
-const RobotToken = sign({ id: 0, name: 'Robot' }, JWT_SECRET!);
+const RobotToken = sign({ id: 0, name: 'Robot' }, LarkAppMeta.secret!);
 
 console.table({ RobotToken });
 
@@ -64,82 +61,3 @@ export const safeAPI: Middleware<any, any> = async (context: Context, next) => {
 
 export const withSafeKoa = <S, C>(...middlewares: Middleware<S, C>[]) =>
   withKoa<S, C>({} as KoaOption, safeAPI, ...middlewares);
-
-export interface ArticleMeta {
-  name: string;
-  path?: string;
-  meta?: DataObject;
-  subs: ArticleMeta[];
-}
-
-export const MD_pattern = /\.(md|markdown)$/i,
-  MDX_pattern = /\.mdx?$/i;
-
-export function splitFrontMatter(raw: string) {
-  const [, frontMatter, markdown] =
-    raw.trim().match(/^---[\r\n]([\s\S]+?[\r\n])---[\r\n]([\s\S]*)/) || [];
-
-  if (!frontMatter) return { markdown: raw };
-
-  try {
-    const meta = parse(frontMatter) as DataObject;
-
-    return { markdown, meta };
-  } catch (error) {
-    console.error(`Error parsing Front Matter:`, error);
-
-    return { markdown };
-  }
-}
-
-export async function* pageListOf(
-  path: string,
-  prefix = 'pages',
-): AsyncGenerator<ArticleMeta> {
-  const { readdir, readFile } = await import('fs/promises');
-
-  const list = await readdir(prefix + path, { withFileTypes: true });
-
-  for (const node of list) {
-    // eslint-disable-next-line prefer-const
-    let { name, parentPath } = node;
-
-    if (name.startsWith('.')) continue;
-
-    const isMDX = MDX_pattern.test(name);
-
-    name = name.replace(MDX_pattern, '');
-    const path = `${parentPath}/${name}`.replace(new RegExp(`^${prefix}`), '');
-
-    if (node.isFile() && isMDX) {
-      const article: ArticleMeta = { name, path, subs: [] };
-
-      const file = await readFile(`${parentPath}/${node.name}`, 'utf-8');
-
-      const { meta } = splitFrontMatter(file);
-
-      if (meta) article.meta = meta;
-
-      yield article;
-    }
-    if (!node.isDirectory()) continue;
-
-    const subs = await Array.fromAsync(pageListOf(path, prefix));
-
-    if (subs[0]) yield { name, subs };
-  }
-}
-
-export type TreeNode<K extends string> = {
-  [key in K]: TreeNode<K>[];
-};
-
-export function* traverseTree<K extends string, N extends TreeNode<K>>(
-  tree: N,
-  key: K,
-): Generator<N> {
-  for (const node of tree[key] || []) {
-    yield node as N;
-    yield* traverseTree(node as N, key);
-  }
-}

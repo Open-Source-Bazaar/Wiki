@@ -6,7 +6,6 @@ export default {
   upstream_projects: '上游專案',
   home_page: '主頁',
   source_code: '源代碼',
-  component: '元件',
   pagination: '分頁',
   powered_by: '強力驅動自',
   documentation: '文檔',
@@ -40,6 +39,10 @@ export default {
   load_more: '加載更多……',
   no_more: '沒有更多',
 
+  // Search
+  keywords: '關鍵詞',
+  search_results: '搜尋結果',
+
   // MDX Article
   article: '文章',
   wiki: '知識庫',
@@ -47,7 +50,21 @@ export default {
   block_diff: '區塊差異',
   document: '文件',
 
-  // Search
-  keywords: '關鍵詞',
-  search_results: '搜尋結果',
+  // Wiki
+  knowledge_base: '知識庫',
+  contribute_content: '貢獻內容',
+  no_docs_available: '知識庫暫無文檔。',
+  docs_auto_load_from_github: '文檔將從 GitHub 存儲庫中自動加載。',
+  policy: '政策',
+  creation_date: '成文日期',
+  publication_date: '發佈日期',
+  edit_on_github: '在 GitHub 編輯',
+  view_original: '查看原文',
+  github_document_description: '這是一個基於 GitHub 存儲庫的文檔頁面。',
+  view_or_edit_on_github: '在 GitHub 上查看或編輯此內容',
+
+  // Recipe
+  recipe: '菜譜',
+  servings: '份數',
+  preparation_time: '準備時間',
 } as const;

@@ -1,4 +1,4 @@
-# wiki
+# Open Source Bazaar wiki
 
 [Lark][0] project scaffold based on [TypeScript][2], [React][1], [Next.js][3], [Bootstrap][4] & [Workbox][5]. And this project bootstrapped with [`create-next-app`][6].
 
@@ -22,10 +22,9 @@
 
 1. [Markdown articles](pages/article/)
 2. [Lark wiki](pages/wiki/)
-3. [Editor components](pages/component.tsx)
-4. [Pagination table](pages/pagination.tsx)
-5. [Scroll list](pages/scroll-list.tsx)
-6. [Not Found page (NGO)](pages/_error.tsx)
+3. [Pagination table](pages/pagination.tsx)
+4. [Scroll list](pages/scroll-list.tsx)
+5. [Not Found page (NGO)](pages/_error.tsx)
    - Global: https://notfound.org/
    - Chinese: https://www.dnpw.org/cn/pa-notfound.html
 

@@ -6,7 +6,6 @@ export default {
   upstream_projects: '上游项目',
   home_page: '主页',
   source_code: '源代码',
-  component: '组件',
   pagination: '分页',
   powered_by: '强力驱动自',
   documentation: '文档',
@@ -40,6 +39,10 @@ export default {
   load_more: '加载更多……',
   no_more: '没有更多',
 
+  // Search
+  keywords: '关键词',
+  search_results: '搜索结果',
+
   // MDX Article
   article: '文章',
   wiki: '知识库',
@@ -47,7 +50,21 @@ export default {
   block_diff: '区块差异',
   document: '文档',
 
-  // Search
-  keywords: '关键词',
-  search_results: '搜索结果',
+  // Wiki
+  knowledge_base: '知识库',
+  contribute_content: '贡献内容',
+  no_docs_available: '知识库暂无文档。',
+  docs_auto_load_from_github: '文档将从 GitHub 仓库中自动加载。',
+  policy: '政策',
+  creation_date: '成文日期',
+  publication_date: '发布日期',
+  edit_on_github: '在 GitHub 编辑',
+  view_original: '查看原文',
+  github_document_description: '这是一个基于 GitHub 仓库的文档页面。',
+  view_or_edit_on_github: '在 GitHub 上查看或编辑此内容',
+
+  // Recipe
+  recipe: '菜谱',
+  servings: '份数',
+  preparation_time: '准备时间',
 } as const;
