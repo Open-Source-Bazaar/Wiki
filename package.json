@@ -7,6 +7,7 @@
     "node": ">=22"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.20.2",
     "@git-diff-view/file": "^0.1.7",
     "@git-diff-view/react": "^0.1.7",
     "@mdx-js/loader": "^3.1.1",
@@ -77,6 +78,7 @@
     "prettier": "^3.9.5",
     "prettier-plugin-css-order": "^2.2.0",
     "typescript": "~5.9.3",
+    "wrangler": "^4.118.0",
     "typescript-eslint": "^8.64.0"
   },
   "resolutions": {
@@ -102,6 +104,9 @@
     "dev": "next dev --webpack",
     "build": "cross-env CI=true  next build --webpack",
     "start": "next start",
+    "preview": "opennextjs-cloudflare build  &&  opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build  &&  opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
     "test": "lint-staged  &&  tsc --noEmit",
     "pack-image": "docker build -t open-source-bazaar/wiki:latest .",
     "container": "docker rm -f wiki  &&  docker run --name wiki -p 3000:3000 -d open-source-bazaar/wiki:latest"

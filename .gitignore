@@ -12,6 +12,7 @@
 next-env.d.ts
 /.next/
 /out/
+/.open-next/
 
 # PWA
 public/sw.js
@@ -39,10 +40,14 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# vercel
+# Vercel
 .vercel
 
-# typescript
+# CloudFlare
+cloudflare-env.d.ts
+.wrangler
+
+# TypeScript
 *.tsbuildinfo
 
 # IDE
