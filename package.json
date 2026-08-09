@@ -1,6 +1,6 @@
 {
   "name": "@open-source-bazaar/wiki",
-  "version": "2.4.0",
+  "version": "0.4.0",
   "description": "Lark project scaffold based on TypeScript, React, Next.js, Bootstrap & Workbox.",
   "private": true,
   "engines": {

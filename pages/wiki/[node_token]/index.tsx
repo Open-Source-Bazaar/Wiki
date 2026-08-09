@@ -1,27 +1,21 @@
 import { Icon } from 'idea-react';
 import { Block, renderBlocks, WikiNode } from 'mobx-lark';
-import { GetStaticPaths } from 'next';
+import { GetStaticProps } from 'next';
 import { FC } from 'react';
 import { Button, Container } from 'react-bootstrap';
 
 import { PageHead } from '../../../components/Layout/PageHead';
+import { lark } from '../../../lib/LarkAPI';
+import { skipBuildingAll } from '../../../lib/SSG';
 import { documentStore } from '../../../models/Wiki';
 import { wikiStore } from '../../../models/Wiki';
-import { lark } from '../../api/Lark/core';
-import { skipBuilding } from '../../api/SSG';
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  await lark.getAccessToken();
+export const getStaticPaths = skipBuildingAll;
 
-  const nodes = await wikiStore.getAll();
-
-  return {
-    paths: nodes.map(({ node_token }) => ({ params: { node_token } })),
-    fallback: 'blocking',
-  };
-};
-
-export const getStaticProps = skipBuilding(async ({ params }) => {
+export const getStaticProps: GetStaticProps<
+  WikiDocumentPageProps,
+  { node_token: string }
+> = async ({ params }) => {
   await lark.getAccessToken();
 
   const node = await wikiStore.getOne(params!.node_token as string);
@@ -34,7 +28,7 @@ export const getStaticProps = skipBuilding(async ({ params }) => {
   );
 
   return { props: { node, blocks } };
-});
+};
 
 interface WikiDocumentPageProps {
   node: WikiNode;

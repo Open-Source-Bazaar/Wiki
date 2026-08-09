@@ -3,52 +3,40 @@ import 'core-js/stable/typed-array/from-base64';
 import { marked } from 'marked';
 import { observer } from 'mobx-react';
 import { BadgeBar } from 'mobx-restful-table';
-import { GetStaticPaths } from 'next';
+import { GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { FC, useContext } from 'react';
 import { Breadcrumb, Button, Container } from 'react-bootstrap';
 import { decodeBase64 } from 'web-utility';
 
 import { PageHead } from '../../components/Layout/PageHead';
+import { skipBuildingAll, splitFrontMatter } from '../../lib/SSG';
 import { I18nContext } from '../../models/Translation';
-import {
-  policyContentStore,
-  policyTreeStore,
-  XContent,
-} from '../../models/Wiki';
-import { filterMarkdownFiles,treeToContents } from '../api/SSG';
-import { skipBuilding, splitFrontMatter } from '../api/SSG';
+import { policyContentStore, XContent } from '../../models/Wiki';
 
 interface PolicyPageParams extends ParsedUrlQuery {
   slug: string[];
 }
 
-export const getStaticPaths: GetStaticPaths<PolicyPageParams> = async () => {
-  const tree = await policyTreeStore.getAll();
+export const getStaticPaths = skipBuildingAll;
 
-  const paths = filterMarkdownFiles(treeToContents(tree))
-    .filter(({ type }) => type === 'file')
-    .map(({ path }) => ({ params: { slug: path.split('/') } }));
+export const getStaticProps: GetStaticProps<
+  XContent,
+  PolicyPageParams
+> = async ({ params }) => {
+  const { slug } = params!;
 
-  return { paths, fallback: 'blocking' };
+  const node = await policyContentStore.getOne(slug.join('/'));
+
+  const { meta, markdown } = splitFrontMatter(decodeBase64(node.content!));
+
+  const markup = marked(markdown) as string;
+
+  return {
+    props: JSON.parse(JSON.stringify({ ...node, content: markup, meta })),
+    revalidate: 300, // Revalidate every 5 minutes
+  };
 };
-
-export const getStaticProps = skipBuilding<XContent, PolicyPageParams>(
-  async ({ params }) => {
-    const { slug } = params!;
-
-    const node = await policyContentStore.getOne(slug.join('/'));
-
-    const { meta, markdown } = splitFrontMatter(decodeBase64(node.content!));
-
-    const markup = marked(markdown) as string;
-
-    return {
-      props: JSON.parse(JSON.stringify({ ...node, content: markup, meta })),
-      revalidate: 300, // Revalidate every 5 minutes
-    };
-  },
-);
 
 const PolicyPage: FC<XContent> = observer(
   ({ name, path, parent_path, content, meta }) => {

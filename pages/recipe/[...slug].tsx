@@ -3,55 +3,40 @@ import 'core-js/stable/typed-array/from-base64';
 import { marked } from 'marked';
 import { observer } from 'mobx-react';
 import { BadgeBar } from 'mobx-restful-table';
-import { GetStaticPaths } from 'next';
+import { GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { FC, useContext } from 'react';
 import { Breadcrumb, Button, Container } from 'react-bootstrap';
 import { decodeBase64 } from 'web-utility';
 
 import { PageHead } from '../../components/Layout/PageHead';
+import { skipBuildingAll, splitFrontMatter } from '../../lib/SSG';
 import { I18nContext } from '../../models/Translation';
-import {
-  recipeContentStore,
-  recipeTreeStore,
-  XContent,
-} from '../../models/Wiki';
-import { filterMarkdownFiles,treeToContents } from '../api/SSG';
-import { skipBuilding, splitFrontMatter } from '../api/SSG';
+import { recipeContentStore, XContent } from '../../models/Wiki';
 
 interface RecipePageParams extends ParsedUrlQuery {
   slug: string[];
 }
 
-export const getStaticPaths: GetStaticPaths<RecipePageParams> = async () => {
-  const tree = await recipeTreeStore.getAll();
+export const getStaticPaths = skipBuildingAll;
 
-  const paths = filterMarkdownFiles(treeToContents(tree))
-    .filter(
-      ({ type, name, path }) =>
-        type === 'file' && !name.startsWith('.') && !path.startsWith('index.'),
-    )
-    .map(({ path }) => ({ params: { slug: path.split('/') } }));
+export const getStaticProps: GetStaticProps<
+  XContent,
+  RecipePageParams
+> = async ({ params }) => {
+  const { slug } = params!;
 
-  return { paths, fallback: 'blocking' };
+  const node = await recipeContentStore.getOne(slug.join('/'));
+
+  const { meta, markdown } = splitFrontMatter(decodeBase64(node.content!));
+
+  const markup = marked(markdown) as string;
+
+  return {
+    props: JSON.parse(JSON.stringify({ ...node, content: markup, meta })),
+    revalidate: 300, // Revalidate every 5 minutes
+  };
 };
-
-export const getStaticProps = skipBuilding<XContent, RecipePageParams>(
-  async ({ params }) => {
-    const { slug } = params!;
-
-    const node = await recipeContentStore.getOne(slug.join('/'));
-
-    const { meta, markdown } = splitFrontMatter(decodeBase64(node.content!));
-
-    const markup = marked(markdown) as string;
-
-    return {
-      props: JSON.parse(JSON.stringify({ ...node, content: markup, meta })),
-      revalidate: 300, // Revalidate every 5 minutes
-    };
-  },
-);
 
 const RecipePage: FC<XContent> = observer(
   ({ name, path, parent_path, content, meta }) => {

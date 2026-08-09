@@ -6,10 +6,10 @@ import { Container } from 'react-bootstrap';
 
 import { GitDiffView } from '../../../components/GitDiffView';
 import { PageHead } from '../../../components/Layout/PageHead';
-import { documentStore } from '../../../models/Wiki';
+import { lark } from '../../../lib/LarkAPI';
 import { I18nContext } from '../../../models/Translation';
+import { documentStore } from '../../../models/Wiki';
 import { wikiStore } from '../../../models/Wiki';
-import { lark } from '../../api/Lark/core';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   await lark.getAccessToken();

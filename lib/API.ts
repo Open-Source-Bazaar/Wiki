@@ -6,7 +6,7 @@ import { DataObject } from 'mobx-restful';
 import { KoaOption, withKoa } from 'next-ssr-middleware';
 import { ProxyAgent, setGlobalDispatcher } from 'undici';
 
-import { LarkAppMeta } from '../../models/configuration';
+import { LarkAppMeta } from '../models/configuration';
 
 const { HTTP_PROXY } = process.env;
 

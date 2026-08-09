@@ -4,7 +4,7 @@ import { Content, ContentModel, TreeModel } from 'mobx-github';
 import { DocumentModel, WikiNodeModel } from 'mobx-lark';
 import { DataObject } from 'mobx-restful';
 
-import { lark } from '../pages/api/Lark/core';
+import { lark } from '../lib/LarkAPI';
 import { LarkWikiDomain, LarkWikiId } from './configuration';
 
 export interface XContent extends Content {

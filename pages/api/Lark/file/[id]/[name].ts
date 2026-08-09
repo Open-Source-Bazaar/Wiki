@@ -5,9 +5,9 @@ import { createKoaRouter, withKoaRouter } from 'next-ssr-middleware';
 import { Readable } from 'stream';
 import { parseJSON } from 'web-utility';
 
+import { safeAPI } from '../../../../../lib/API';
+import { lark } from '../../../../../lib/LarkAPI';
 import { CACHE_HOST } from '../../../../../models/configuration';
-import { safeAPI } from '../../../core';
-import { lark } from '../../core';
 
 const router = createKoaRouter(import.meta.url);
 

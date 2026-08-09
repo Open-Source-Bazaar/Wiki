@@ -6,9 +6,9 @@ import { treeFrom } from 'web-utility';
 
 import { ContentTree } from '../../components/Layout/ContentTree';
 import { PageHead } from '../../components/Layout/PageHead';
+import { filterMarkdownFiles, treeToContents } from '../../lib/SSG';
 import { I18nContext } from '../../models/Translation';
 import { policyTreeStore, XContent } from '../../models/Wiki';
-import { filterMarkdownFiles,treeToContents } from '../api/SSG';
 
 export const getStaticProps: GetStaticProps<{
   nodes: XContent[];

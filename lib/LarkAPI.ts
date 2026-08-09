@@ -8,7 +8,7 @@ import {
 } from 'mobx-lark';
 import { oauth2Signer } from 'next-ssr-middleware';
 
-import { LarkAppMeta } from '../../../models/configuration';
+import { LarkAppMeta } from '../models/configuration';
 
 export const lark = new LarkApp(LarkAppMeta);
 

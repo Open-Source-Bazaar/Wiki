@@ -2,13 +2,13 @@ import 'core-js/full/array/from-async';
 
 import { Content, Tree } from 'mobx-github';
 import { DataObject } from 'mobx-restful';
-import { GetStaticProps, GetStaticPropsResult } from 'next';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsResult } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Minute, Second } from 'web-utility';
 import { parse } from 'yaml';
 
-import { CI } from '../../models/configuration';
-import { XContent } from '../../models/Wiki';
+import { CI } from '../models/configuration';
+import { XContent } from '../models/Wiki';
 
 export const skipBuilding =
   <Props extends DataObject, Params extends ParsedUrlQuery = ParsedUrlQuery>(
@@ -28,6 +28,10 @@ export const skipBuilding =
       return fallback;
     }
   };
+export const skipBuildingAll: GetStaticPaths = async () => ({
+  paths: [],
+  fallback: 'blocking',
+});
 
 export interface ArticleMeta {
   name: string;
